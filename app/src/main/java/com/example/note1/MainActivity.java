@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -25,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
     List<NoteObj> listNote=new ArrayList<NoteObj>();
     private RecyclerView.LayoutManager mLayoutManager;
 
+    NoteAdapter.OnNoteSelectedListener listener = new NoteAdapter.OnNoteSelectedListener(){
+        @Override
+        public void onSeLected(int index) {
+            Toast.makeText(MainActivity.this,  "you tap on"+listNote.get(index).getTitle(), Toast.LENGTH_LONG).show();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,18 +49,20 @@ public class MainActivity extends AppCompatActivity {
 //        db.testDeleteNote(new NoteObj("",""),0);
 
         //get all data to list and add this list to ListNote
-        List<NoteObj> list = db.getAll();
+        final List<NoteObj> list = db.getAll();
         this.listNote.addAll(list);
 
         RecyclerView recyclerViewNote = (RecyclerView) findViewById(R.id.recycle_view_contact);
         //Init adapter
-        noteAdapter = new NoteAdapter(this,(ArrayList<NoteObj>) listNote);
+        noteAdapter = new NoteAdapter(this,(ArrayList<NoteObj>) listNote, listener);
         //set Adapter
         recyclerViewNote.setAdapter(noteAdapter);
         //create layout manager
         mLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
         //set layout manager
         recyclerViewNote.setLayoutManager(mLayoutManager);
+
+
 
         Button buttonAdd = findViewById(R.id.btnAdd);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 }
