@@ -59,5 +59,38 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
 
     }
+    //method update
+    public void updateNote(NoteObj note){
 
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(COLUMN_ID,note.getId());
+        contentValues.put(COLUMN_TITLE,note.getTitle());
+        contentValues.put(COLUMN_DETAIL,note.getDetail());
+        contentValues.put(COLUMN_DATETIME,note.getDateTime());
+//        contentValues.put(COLUMN_FAVORITE,note.isFavorite());
+
+
+        //update where column_id=?
+        sqLiteDatabase.update(TABLE_NAME,contentValues,COLUMN_ID+" =?",new String[]{String.valueOf(note.getId())});
+        sqLiteDatabase.close();
+    }
+
+    public void testUpdateNote(NoteObj note, int idItem){
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(COLUMN_ID,note.getId());
+        contentValues.put(COLUMN_TITLE,note.getTitle());
+        contentValues.put(COLUMN_DETAIL,note.getDetail());
+        contentValues.put(COLUMN_DATETIME,note.getDateTime());
+//        contentValues.put(COLUMN_FAVORITE,note.isFavorite());
+
+
+        //update where column_id=?
+        sqLiteDatabase.update(TABLE_NAME,contentValues,COLUMN_ID+" =?",new String[]{String.valueOf(idItem)});
+        sqLiteDatabase.close();
+    }
 }
