@@ -1,6 +1,8 @@
 package com.example.note1.Model;
 
-public class NoteObj {
+import java.io.Serializable;
+
+public class NoteObj implements Serializable {
     private int id;
     private String title;
     private String detail;

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         DBHelper db = new DBHelper(this);
 
         //insert fake data
-        db.addNote(new NoteObj("title1","detail1"));
+//        db.addNote(new NoteObj("title1","detail1"));
 //       //update test
 //        db.testUpdateNote(new NoteObj("title update","detail update"),1);
 //        //delete test
