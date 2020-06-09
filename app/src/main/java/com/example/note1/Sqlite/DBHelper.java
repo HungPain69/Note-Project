@@ -93,4 +93,21 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(TABLE_NAME,contentValues,COLUMN_ID+" =?",new String[]{String.valueOf(idItem)});
         sqLiteDatabase.close();
     }
+    // method delete
+    public void deleteNote(NoteObj note){
+        //xoa note object theo id
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME,COLUMN_ID+" =?",
+                new String[]{String.valueOf(note.getId())});
+        sqLiteDatabase.close();
+    }
+    //method test delete
+    public void testDeleteNote(NoteObj note, int idItem){
+        //xoa note object theo id
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME,COLUMN_ID+" =?",
+                new String[]{String.valueOf(idItem)});
+        sqLiteDatabase.close();
+    }
+
 }

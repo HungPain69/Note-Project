@@ -25,5 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
        //update test
         db.testUpdateNote(new NoteObj("title update","detail update"),1);
+
+
+        //delete test
+        db.testDeleteNote(new NoteObj("",""),0);
     }
 }
