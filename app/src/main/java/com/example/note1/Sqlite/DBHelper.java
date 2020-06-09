@@ -1,10 +1,14 @@
 package com.example.note1.Sqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.example.note1.Model.NoteObj;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME="NOTE_DB";
@@ -36,6 +40,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+    public void addNote(NoteObj note){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        //dung contentValue de luu tru du lieu
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(COLUMN_TITLE,note.getTitle());
+        contentValues.put(COLUMN_DETAIL,note.getDetail());
+        contentValues.put(COLUMN_DATETIME,note.getDateTime());
+//        contentValues.put(COLUMN_FAVORITE,note.getDateTime());
+
+        sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+        Log.d("adddd",note+"insertContact");
+        sqLiteDatabase.close();
 
     }
+
 }
