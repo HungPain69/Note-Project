@@ -2,6 +2,7 @@ package com.example.note1.Sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -9,6 +10,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.example.note1.Model.NoteObj;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME="NOTE_DB";
@@ -108,6 +112,29 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(TABLE_NAME,COLUMN_ID+" =?",
                 new String[]{String.valueOf(idItem)});
         sqLiteDatabase.close();
+    }
+
+    //method get all note and return List
+    public List<NoteObj> getAll(){
+        Log.d("ContactLog","getAllContact");
+        List <NoteObj> list=new ArrayList<NoteObj>();
+        String query="SELECT * FROM "+TABLE_NAME;
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        Cursor cursor=sqLiteDatabase.rawQuery(query,null);
+        if (cursor.moveToFirst()){
+            do{
+                NoteObj note=new NoteObj();
+                note.setId(Integer.parseInt(cursor.getString(0)));
+                note.setTitle(cursor.getString(1));
+                note.setDetail(cursor.getString(2));
+                note.setDateTime(cursor.getString(3));
+//                note.setFavorite(cursor.getInt(4)>0);
+                list.add(note);
+
+            }while (cursor.moveToNext());
+        }
+        return list;
     }
 
 }
