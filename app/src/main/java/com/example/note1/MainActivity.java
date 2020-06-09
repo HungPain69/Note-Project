@@ -1,9 +1,12 @@
 package com.example.note1;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int MENU_ITEM_EDIT = 11;
+    private static final int MENU_ITEM_DELETE = 22;
 
     RecyclerView recycleViewNote;
     NoteAdapter noteAdapter;
@@ -72,6 +77,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //getGroupId tu menuItem de chon ra note Obj dang bi longClick
+        final NoteObj selectNote = listNote.get(item.getGroupId());
+        switch (item.getItemId()) {
+            case MENU_ITEM_DELETE:
+                Toast.makeText(this,"You have clicked Delete" ,Toast.LENGTH_LONG).show();
+                break;
+            case MENU_ITEM_EDIT:
+                Toast.makeText(this,"You have clicked Edit",Toast.LENGTH_LONG).show();
+
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
 

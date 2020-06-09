@@ -1,5 +1,6 @@
 package com.example.note1.Adapter;
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyNoteViewHolder> {
+    private static final int MENU_ITEM_EDIT = 11;
+    private static final int MENU_ITEM_DELETE = 22;
     private ArrayList<NoteObj> mDataNote;
     private Context mContext;
     private OnNoteSelectedListener mListener;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
     //constructor
     public NoteAdapter(Context context ,ArrayList<NoteObj> data) {
         mContext = context;
@@ -31,6 +43,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyNoteViewHold
         this.mContext = context;
         this.mListener = listener;
     }
+
 
     @NonNull
     @Override
@@ -68,7 +81,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyNoteViewHold
 
 
 
-    public class MyNoteViewHolder extends RecyclerView.ViewHolder {
+    public class MyNoteViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener {
         TextView title, detail, dateTime;
         LinearLayout container;
         public MyNoteViewHolder(@NonNull View itemView) {
@@ -78,7 +91,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyNoteViewHold
             title = itemView.findViewById(R.id.itemTitle);
             detail = itemView.findViewById(R.id.itemDetail);
             dateTime = itemView.findViewById(R.id.itemDateTime);
+
+            itemView.setOnCreateContextMenuListener(this);
         }
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Select The Action");
+            //groupId, itemId, order, title
+            menu.add(this.getAdapterPosition(),MENU_ITEM_EDIT , 0, "Edit");
+            menu.add(this.getAdapterPosition(), MENU_ITEM_DELETE , 1, "Delete");
+
+        }
+
     }
     //bat su kien click vao item
     public interface  OnNoteSelectedListener{
