@@ -1,9 +1,12 @@
 package com.example.note1.Adapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.note1.R;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyNoteViewHolder> {
 
@@ -29,8 +32,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyNoteViewHold
 
 
     public class MyNoteViewHolder extends RecyclerView.ViewHolder {
+        TextView title, detail, dateTime;
         public MyNoteViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.itemTitle);
+            detail = itemView.findViewById(R.id.itemDetail);
+            dateTime = itemView.findViewById(R.id.itemDateTime);
         }
     }
 }
