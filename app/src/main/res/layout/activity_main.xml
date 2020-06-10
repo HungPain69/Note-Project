@@ -50,30 +50,4 @@
             />
 
 
-
-
-
-
-    <LinearLayout
-        android:paddingTop="60dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ADD"></Button>
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recycle_view_contact">
-            </androidx.recyclerview.widget.RecyclerView>
-
-    </LinearLayout>
-
-
 </androidx.drawerlayout.widget.DrawerLayout>
