@@ -4,17 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/item1"
+    app:startDestination="@id/fragment1"
     tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/fragment1"
         android:name="com.example.note1.Fragment.FirstFragment"
-        android:label="fragment_first"
+        android:label="fragment_I"
         tools:layout="@layout/first_fragment" />
     <fragment
         android:id="@+id/fragment2"
         android:name="com.example.note1.Fragment.SecondFragment"
-        android:label="fragment_second"
+        android:label="fragment_II"
         tools:layout="@layout/second_fragment" />
 </navigation>
