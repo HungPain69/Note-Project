@@ -26,11 +26,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final int MENU_ITEM_EDIT = 11;
     private static final int MENU_ITEM_DELETE = 22;
+    private static final int REQUEST_CODE = 69;
 
     RecyclerView recycleViewNote;
     NoteAdapter noteAdapter;
     List<NoteObj> listNote=new ArrayList<NoteObj>();
     private RecyclerView.LayoutManager mLayoutManager;
+    DBHelper db;
 
     NoteAdapter.OnNoteSelectedListener listener = new NoteAdapter.OnNoteSelectedListener(){
         @Override
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Create table
-        DBHelper db = new DBHelper(this);
+        db = new DBHelper(this);
 
         //insert fake data
 //        db.addNote(new NoteObj("title1","detail1"));
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 //        db.testDeleteNote(new NoteObj("",""),0);
 
         //get all data to list and add this list to ListNote
-        final List<NoteObj> list = db.getAll();
+        List<NoteObj> list = db.getAll();
         this.listNote.addAll(list);
 
         RecyclerView recyclerViewNote = (RecyclerView) findViewById(R.id.recycle_view_contact);
@@ -91,10 +93,24 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case MENU_ITEM_DELETE:
                 Toast.makeText(this,"You have clicked Delete" ,Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(this)
+                        .setMessage(selectNote.getTitle()+". Are you sure you want to delete?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                db.deleteNote(selectNote);
+                                listNote.remove(selectNote);
+                                noteAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 break;
             case MENU_ITEM_EDIT:
                 Toast.makeText(this,"You have clicked Edit",Toast.LENGTH_LONG).show();
-
+                Intent intent=new Intent(MainActivity.this, ShowNEditActivity.class);
+                intent.putExtra("note",selectNote);
+                startActivityForResult(intent,REQUEST_CODE);
                 break;
         }
         return super.onContextItemSelected(item);
