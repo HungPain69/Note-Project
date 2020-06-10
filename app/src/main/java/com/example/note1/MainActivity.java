@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.note1.Activity.AddNoteActivity;
+import com.example.note1.Activity.ShowNEditActivity;
 import com.example.note1.Adapter.NoteAdapter;
 import com.example.note1.Model.NoteObj;
 import com.example.note1.Sqlite.DBHelper;
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSeLected(int index) {
             Toast.makeText(MainActivity.this,  "you tap on"+listNote.get(index).getTitle(), Toast.LENGTH_LONG).show();
+            NoteObj note = listNote.get(index);
+            Intent intent = new Intent(MainActivity.this, ShowNEditActivity.class);
+            intent.putExtra("note", note);
+            startActivity(intent);
         }
     };
 
