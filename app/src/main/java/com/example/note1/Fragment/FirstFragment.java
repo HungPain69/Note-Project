@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -40,6 +41,7 @@ public class FirstFragment extends Fragment{
     NoteAdapter noteAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SearchView msearchView;
+    RecyclerView recyclerViewNote;
 
     NoteAdapter.OnNoteSelectedListener listener = new NoteAdapter.OnNoteSelectedListener(){
         @Override
@@ -72,7 +74,7 @@ public class FirstFragment extends Fragment{
         List<NoteObj> list = db.getAll();
         this.listNote.addAll(list);
 
-        RecyclerView recyclerViewNote = (RecyclerView) rootView.findViewById(R.id.recycle_view_contact);
+        recyclerViewNote = (RecyclerView) rootView.findViewById(R.id.recycle_view_contact);
         //Init adapter
         noteAdapter = new NoteAdapter(getContext(),(ArrayList<NoteObj>) listNote, listener);
         //set Adapter
@@ -94,36 +96,65 @@ public class FirstFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+
+        super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         inflater.inflate(R.menu.menu_search, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-
-        msearchView = (SearchView) menuItem.getActionView();
-        msearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Log.d("queryy",newText);
-                noteAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
         super.onCreateOptionsMenu(menu, inflater);
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_convert_list_grid:
+                Toast.makeText(getContext(), "uList", Toast.LENGTH_SHORT).show();
+                item.setIcon(R.drawable.ic_grid);
+                initListDisplay();
+                return true;
+            case R.id.action_convert_grid:
+                initGridDisplay();
+                return true;
+            case R.id.action_search:
+                Toast.makeText(getContext(), "search", Toast.LENGTH_SHORT).show();
+                msearchView = (SearchView) item.getActionView();
+                msearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
 
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        Log.d("queryy",newText);
+                        noteAdapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+                }
+    }
+    private void initListDisplay(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewNote.setLayoutManager(layoutManager);
 
+    }
+    private void initGridDisplay(){
 
-
+        //create layout manager
+        mLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        //set layout manager
+        recyclerViewNote.setLayoutManager(mLayoutManager);
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {

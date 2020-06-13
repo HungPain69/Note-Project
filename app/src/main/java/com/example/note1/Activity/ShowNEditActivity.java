@@ -20,8 +20,9 @@ import java.util.Date;
 
 public class ShowNEditActivity extends AppCompatActivity {
     EditText editTextTitle, editTextContent;
-    TextView textViewDateTime;
+    TextView textViewDateTime, titleUpdateTime;
     String mOldTitle, mOldDetail;
+
 
     NoteObj note;
     Button buttonSave;
@@ -31,6 +32,8 @@ public class ShowNEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_n_edit);
         editTextTitle = findViewById(R.id.edit_text_title);
         editTextContent = findViewById(R.id.edit_text_content);
+        titleUpdateTime = findViewById(R.id.title_update_time);
+        //bug "Đã chỉnh sửa" duplicated
         textViewDateTime = findViewById(R.id.tv_dateTime);
         Intent intent = getIntent();
         this.note = (NoteObj) intent.getSerializableExtra("note");
@@ -39,7 +42,12 @@ public class ShowNEditActivity extends AppCompatActivity {
         editTextTitle.setText(mOldTitle);
          mOldDetail = note.getDetail();
         editTextContent.setText(mOldDetail);
-        textViewDateTime.setText("Đã chỉnh sửa "+note.getDateTime());
+
+        //bug "Đã chỉnh sửa" duplicated
+        if(!this.note.getDateTime().equals(null)){
+            titleUpdateTime.setText("Đã chỉnh sửa ");
+        }
+        textViewDateTime.setText(note.getDateTime());
 
 
     }
