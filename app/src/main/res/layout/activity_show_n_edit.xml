@@ -22,14 +22,14 @@
         >
 
     </EditText>
-    <EditText
-        android:id="@+id/edit_text_dateTime"
+    <TextView
+        android:id="@+id/tv_dateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin ="10dp"
-        >
+        />
 
-    </EditText>
+
     <Button
         android:id="@+id/onClickSave"
         android:layout_width="wrap_content"
