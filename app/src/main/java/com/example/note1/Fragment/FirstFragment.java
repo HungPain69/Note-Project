@@ -3,7 +3,10 @@ package com.example.note1.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -20,7 +24,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.note1.Activity.AddNoteActivity;
 import com.example.note1.Activity.ShowNEditActivity;
 import com.example.note1.Adapter.NoteAdapter;
-import com.example.note1.MainActivity;
 import com.example.note1.Model.NoteObj;
 import com.example.note1.R;
 import com.example.note1.Sqlite.DBHelper;
@@ -28,7 +31,7 @@ import com.example.note1.Sqlite.DBHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFragment extends Fragment {
+public class FirstFragment extends Fragment{
     private static final int MENU_ITEM_EDIT = 11;
     private static final int MENU_ITEM_DELETE = 22;
     private static final int REQUEST_CODE = 69;
@@ -36,6 +39,7 @@ public class FirstFragment extends Fragment {
     List<NoteObj> listNote=new ArrayList<NoteObj>();
     NoteAdapter noteAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private SearchView msearchView;
 
     NoteAdapter.OnNoteSelectedListener listener = new NoteAdapter.OnNoteSelectedListener(){
         @Override
@@ -86,8 +90,41 @@ public class FirstFragment extends Fragment {
             }
         });
 
+        setHasOptionsMenu(true);
         return rootView;
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+
+        msearchView = (SearchView) menuItem.getActionView();
+        msearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("queryy",newText);
+                noteAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+
+
+
+
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         //getGroupId tu menuItem de chon ra note Obj dang bi longClick
@@ -117,4 +154,8 @@ public class FirstFragment extends Fragment {
         }
         return super.onContextItemSelected(item);
     }
+
+
+
+
 }

@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.note1.Activity.AddNoteActivity;
 import com.example.note1.Activity.ShowNEditActivity;
 import com.example.note1.Adapter.NoteAdapter;
+import com.example.note1.Fragment.FirstFragment;
 import com.example.note1.Model.NoteObj;
 import com.example.note1.Sqlite.DBHelper;
 import com.google.android.material.navigation.NavigationView;
@@ -52,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
 
 
 }
