@@ -39,7 +39,7 @@ public class FirstFragment extends Fragment{
     DBHelper db;
     List<NoteObj> listNote=new ArrayList<NoteObj>();
     NoteAdapter noteAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private StaggeredGridLayoutManager mLayoutManager;
     private SearchView msearchView;
     RecyclerView recyclerViewNote;
 
@@ -115,12 +115,10 @@ public class FirstFragment extends Fragment{
         switch (item.getItemId()) {
             case R.id.action_convert_list_grid:
                 Toast.makeText(getContext(), "uList", Toast.LENGTH_SHORT).show();
-                item.setIcon(R.drawable.ic_grid);
-                initListDisplay();
+                switchLayout();
+                switchIcon(item);
                 return true;
-            case R.id.action_convert_grid:
-                initGridDisplay();
-                return true;
+
             case R.id.action_search:
                 Toast.makeText(getContext(), "search", Toast.LENGTH_SHORT).show();
                 msearchView = (SearchView) item.getActionView();
@@ -141,19 +139,6 @@ public class FirstFragment extends Fragment{
             default:
                 return super.onOptionsItemSelected(item);
                 }
-    }
-    private void initListDisplay(){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerViewNote.setLayoutManager(layoutManager);
-
-    }
-    private void initGridDisplay(){
-
-        //create layout manager
-        mLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
-        //set layout manager
-        recyclerViewNote.setLayoutManager(mLayoutManager);
     }
 
     @Override
@@ -187,6 +172,35 @@ public class FirstFragment extends Fragment{
     }
 
 
+//    private void initListDisplay(){
+//        mLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+//        //set layout manager
+//        recyclerViewNote.setLayoutManager(mLayoutManager);
+//
+//    }
+//    private void initGridDisplay(){
+//
+//        //create layout manager
+//        mLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+//        Log.d("spanCOunt",((StaggeredGridLayoutManager) mLayoutManager).getSpanCount()+"");
+//        //set layout manager
+//        recyclerViewNote.setLayoutManager(mLayoutManager);
+//    }
+    private void switchLayout(){
+
+        if( mLayoutManager.getSpanCount() ==1){
+            mLayoutManager.setSpanCount(3) ;
+            }else {
+                mLayoutManager.setSpanCount(1);
+        }
+    }
+    private void switchIcon(MenuItem item){
+        if(mLayoutManager.getSpanCount() == 1){
+            item.setIcon(R.drawable.ic_grid);
+        }else{
+            item.setIcon(R.drawable.ic_list);
+        }
+    }
 
 
 }
